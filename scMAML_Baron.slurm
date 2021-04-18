@@ -3,7 +3,7 @@
 ### PART 1: Requests resources to run your job.
 # --------------------------------------------------------------
 ### Optional. Set the job name
-#SBATCH --job-name=poc_matrix
+#SBATCH --job-name=scMAML
 
 ### Optional. Set the output filename.
 ### SLURM reads %x as the job name and %j as the job ID
@@ -18,16 +18,16 @@
 ### Specify high priority jobs
 #SBATCH --qos=user_qos_sprinkjm
 
-# SBATCH --mail-type=ALL
+#SBATCH --mail-type=ALL
 
 ### Optional. Specify email address to use for notification
-# SBATCH --mail-user=rahulbhadani@email.arizona.edu
+#SBATCH --mail-user=rahulbhadani@email.arizona.edu
 
 ### REQUIRED. Set the partition for your job.
 #SBATCH --partition=standard
 
 
-#SBATCH --gres=gpu:2
+# SBATCH --gres=gpu:2
 
 ### REQUIRED. Set the number of cores that will be used for this job.
 #SBATCH --ntasks=1
@@ -46,11 +46,19 @@
 
 ### SLURM Inherits your environment. cd $SLURM_SUBMIT_DIR not needed
 pwd; hostname; date
-now=$(date +"%Y_%m_%d_%H_%M_%S")
 
 echo "CPUs per task: $SLURM_CPUS_PER_TASK"
 ### Load required modules/libraries if needed
 module load R/4.0.0
-cd /home/u27/rahulbhadani
-Rscript /home/u27/rahulbhadani/VST/POC_Matrix_Replacement.R > /home/u27/rahulbhadani/SLURM/POC_Matrix_$now.txt
-date
+now=$(date +"%Y_%m_%d_%H_%M_%S")
+echo $now
+
+
+export PATH="/home/u27/rahulbhadani/.anaconda:$PATH"
+source /home/u27/rahulbhadani/.anaconda/bin/activate
+conda activate base
+
+cd /home/u27/rahulbhadani/scMAML
+
+python /home/u27/rahulbhadani/scMAML/scMAML_Baron.py > /home/u27/rahulbhadani/SLURM/Baron_$now.txt
+echo "DONE!!!!"

@@ -1,14 +1,16 @@
 #!/bin/bash
+
 # --------------------------------------------------------------
 ### PART 1: Requests resources to run your job.
 # --------------------------------------------------------------
 ### Optional. Set the job name
-#SBATCH --job-name=poc_matrix
+#SBATCH --job-name=BPSKPEOPA
 
 ### Optional. Set the output filename.
 ### SLURM reads %x as the job name and %j as the job ID
 #SBATCH --output=%x-%j.out
 #SBATCH --error=%x-%j.err
+
 
 ### REQUIRED. Specify the PI group for this job
 #SBATCH --account=sprinkjm
@@ -26,15 +28,12 @@
 ### REQUIRED. Set the partition for your job.
 #SBATCH --partition=standard
 
-
-#SBATCH --gres=gpu:2
-
 ### REQUIRED. Set the number of cores that will be used for this job.
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=94
+#SBATCH --cpus-per-task=28
 
 ### REQUIRED. Set the memory required for this job.
-#SBATCH --mem=470gb
+#SBATCH --mem=250gb
 
 ### REQUIRED. Specify the time required for this job, hhh:mm:ss
 #SBATCH --time=200:00:00
@@ -44,13 +43,12 @@
 ### PART 2: Executes bash commands to run your job
 # --------------------------------------------------------------
 
-### SLURM Inherits your environment. cd $SLURM_SUBMIT_DIR not needed
 pwd; hostname; date
 now=$(date +"%Y_%m_%d_%H_%M_%S")
-
 echo "CPUs per task: $SLURM_CPUS_PER_TASK"
-### Load required modules/libraries if needed
-module load R/4.0.0
-cd /home/u27/rahulbhadani
-Rscript /home/u27/rahulbhadani/VST/POC_Matrix_Replacement.R > /home/u27/rahulbhadani/SLURM/POC_Matrix_$now.txt
+module load matlab/r2020b
+ulimit -u 63536
+echo $now
+matlab -nodisplay -nosplash -softwareopengl < /groups/ivan/OPA_EA/BPSK/PE_NegativeBinomial_Idler_Port.m > /groups/ivan/OPA_EA/BPSK/SLURM_PE_NegativeBinomial_Idler_Port_$now.txt
 date
+

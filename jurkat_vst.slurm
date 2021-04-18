@@ -3,7 +3,7 @@
 ### PART 1: Requests resources to run your job.
 # --------------------------------------------------------------
 ### Optional. Set the job name
-#SBATCH --job-name=poc_matrix
+#SBATCH --job-name=usecase_jurkat
 
 ### Optional. Set the output filename.
 ### SLURM reads %x as the job name and %j as the job ID
@@ -27,7 +27,7 @@
 #SBATCH --partition=standard
 
 
-#SBATCH --gres=gpu:2
+### SBATCH --gres=gpu:2
 
 ### REQUIRED. Set the number of cores that will be used for this job.
 #SBATCH --ntasks=1
@@ -52,5 +52,5 @@ echo "CPUs per task: $SLURM_CPUS_PER_TASK"
 ### Load required modules/libraries if needed
 module load R/4.0.0
 cd /home/u27/rahulbhadani
-Rscript /home/u27/rahulbhadani/VST/POC_Matrix_Replacement.R > /home/u27/rahulbhadani/SLURM/POC_Matrix_$now.txt
+Rscript /home/u27/rahulbhadani/VST/use_case_Jurkat.R > /home/u27/rahulbhadani/SLURM/Predict_Jurkat_$now.txt
 date
